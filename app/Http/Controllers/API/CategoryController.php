@@ -30,7 +30,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return Category::create($request->all());
+        try {
+            $category = Category::create($request->all());
+            return ['message' => 'Successful'];
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Something went wrong!', 'data' => []], 500);
+        }
     }
 
     /**
@@ -38,7 +43,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return $category;
+        try {
+            return ['message' => 'Successful', 'data' => $category];
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Something went wrong!'], 500);
+        }
     }
 
     /**
@@ -46,7 +55,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        return $category->update($request->all());
+        try {
+            $category->update($request->all());
+            return ['message' => 'Updated successufl', 'data' => $category];
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Something went wrong!'], 500);
+        }
     }
 
     /**
@@ -54,6 +68,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        return $category->delete();
+        try {
+            $category->delete();
+            return ['message' => 'Deleted successful'];
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Something went wrong!'], 500);
+        }
     }
 }
